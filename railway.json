@@ -9,13 +9,14 @@
       "components/**",
       "lib/**",
       "auth.ts",
-      "middleware.ts"
+      "proxy.ts"
     ]
   },
   "deploy": {
     "numReplicas": 1,
-    "startCommand": "prisma db push && next start",
+    "startCommand": "prisma db push --accept-data-loss; next start",
     "healthcheckPath": "/",
+    "healthcheckTimeout": 60,
     "restartPolicyType": "ON_FAILURE"
   }
 }
