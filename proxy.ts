@@ -7,12 +7,12 @@ export default auth((req) => {
 
   if (isOnDashboard) {
     if (!isLoggedIn) {
-      return NextResponse.redirect(new URL("/sign-in", req.nextUrl));
+      return NextResponse.redirect(new URL("/auth/login", req.nextUrl));
     }
     return NextResponse.next();
   }
 
-  if (isLoggedIn && (req.nextUrl.pathname.startsWith("/sign-in") || req.nextUrl.pathname.startsWith("/sign-up"))) {
+  if (isLoggedIn && (req.nextUrl.pathname.startsWith("/auth/login") || req.nextUrl.pathname.startsWith("/auth/register"))) {
     return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
   }
 
@@ -20,5 +20,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/dashboard", "/sign-in", "/sign-up"],
+  matcher: ["/dashboard/:path*", "/dashboard", "/auth/login", "/auth/register"],
 };
