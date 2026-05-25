@@ -39,14 +39,14 @@ export function KanbanClient({ tasks }: KanbanClientProps) {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-6 lg:p-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Kanban Board</h1>
         <p className="text-muted-foreground">Drag tasks between columns to update status</p>
       </div>
 
-      <div className="grid lg:grid-cols-4 gap-6">
-        <Card className="lg:col-span-1 h-fit">
+      <div className="grid md:grid-cols-4 gap-6">
+        <Card className="md:col-span-1 h-fit">
           <CardHeader>
             <CardTitle>Add Task</CardTitle>
           </CardHeader>
@@ -55,7 +55,7 @@ export function KanbanClient({ tasks }: KanbanClientProps) {
           </CardContent>
         </Card>
 
-        <div className="lg:col-span-3">
+        <div className="md:col-span-3">
           <KanbanBoard tasks={tasks} onStatusChange={handleStatusChange} />
         </div>
       </div>

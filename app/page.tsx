@@ -30,7 +30,7 @@ export default function Home() {
             <h2 className="text-[1.1rem] font-medium text-white/90 mb-1.5">Get Started</h2>
             <p className="text-neutral-400 text-[0.9rem] mb-8 font-light">Create your account and start managing tasks</p>
             <Link 
-              href="/sign-up" 
+              href="/auth/register" 
               className="w-full py-2.5 rounded-lg bg-white text-black text-sm font-medium hover:bg-neutral-200 transition-colors duration-300 shadow-sm"
             >
               Sign Up Free
@@ -42,7 +42,7 @@ export default function Home() {
             <h2 className="text-[1.1rem] font-medium text-white/90 mb-1.5">Already have an account?</h2>
             <p className="text-neutral-400 text-[0.9rem] mb-8 font-light">Sign in to continue to your dashboard</p>
             <Link 
-              href="/sign-in" 
+              href="/auth/login" 
               className="w-full py-2.5 rounded-lg bg-transparent text-white/90 border border-white/10 text-sm font-medium hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300"
             >
               Sign In

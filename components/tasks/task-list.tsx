@@ -34,14 +34,14 @@ export function TaskList({ tasks }: TaskListProps) {
   });
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-2">
+    <div className="space-y-3 sm:space-y-4 min-w-0">
+      <div className="flex flex-wrap gap-1.5 sm:gap-2 overflow-x-auto pb-1">
         {filters.map((f) => (
           <button
             key={f.key}
             onClick={() => setFilter(f.key)}
             className={cn(
-              "px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
+              "px-2.5 sm:px-3 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors whitespace-nowrap",
               filter === f.key
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -51,7 +51,7 @@ export function TaskList({ tasks }: TaskListProps) {
           </button>
         ))}
       </div>
-      <div className="space-y-2">
+      <div className="space-y-2 overflow-hidden">
         {filteredTasks.length === 0 ? (
           <p className="text-center text-sm text-muted-foreground py-8">
             No tasks found

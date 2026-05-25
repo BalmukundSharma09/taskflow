@@ -25,7 +25,7 @@ export default async function DashboardPage() {
   const todoTasks = tasks.filter((t) => t.status === "todo").length;
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-6 lg:p-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <p className="text-muted-foreground mt-1">Welcome back, {user.name}</p>
@@ -40,7 +40,7 @@ export default async function DashboardPage() {
         />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3 mb-8">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
         <div className="lg:col-span-2">
           <RecentTasks tasks={tasks} />
         </div>
@@ -53,23 +53,23 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        <Card className="lg:col-span-1">
-          <CardHeader>
+      <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-3">
+        <Card className="lg:col-span-1 min-w-0">
+          <CardHeader className="p-4 sm:p-6">
             <CardTitle>Create New Task</CardTitle>
             <CardDescription>Add a new task to your list</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
             <TasksClient />
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-2">
-          <CardHeader>
+        <Card className="lg:col-span-2 min-w-0">
+          <CardHeader className="p-4 sm:p-6">
             <CardTitle>Your Tasks</CardTitle>
             <CardDescription>Manage and track your tasks</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
             <TaskList tasks={tasks} />
           </CardContent>
         </Card>

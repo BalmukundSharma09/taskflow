@@ -54,44 +54,50 @@ export function TaskForm({ onSuccess }: TaskFormProps) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <div>
+    <form onSubmit={onSubmit} className="space-y-3 sm:space-y-4">
+      <div className="w-full min-w-0">
         <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="What needs to be done?"
           required
           disabled={isLoading}
-          className="h-9"
+          className="h-9 w-full"
         />
       </div>
-      <div>
+      <div className="w-full min-w-0">
         <Textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Add a description (optional)"
           disabled={isLoading}
-          className="min-h-[80px]"
+          className="min-h-[80px] w-full"
         />
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <Select value={priority} onValueChange={setPriority} disabled={isLoading}>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="low">Low</SelectItem>
-            <SelectItem value="medium">Medium</SelectItem>
-            <SelectItem value="high">High</SelectItem>
-          </SelectContent>
-        </Select>
-        <Input
-          type="date"
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-          disabled={isLoading}
-          className="h-9"
-        />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div className="w-full min-w-0">
+          <Select value={priority} onValueChange={setPriority} disabled={isLoading}>
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="low">Low</SelectItem>
+              <SelectItem value="medium">Medium</SelectItem>
+              <SelectItem value="high">High</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="w-full min-w-0">
+          <div className="relative w-full">
+            <Input
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              disabled={isLoading}
+              className="h-9 w-full pr-1 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-0 [&::-webkit-calendar-picker-indicator]:opacity-60 [&::-webkit-calendar-picker-indicator]:hover:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-datetime-edit]:pr-6"
+            />
+          </div>
+        </div>
       </div>
       <Button type="submit" disabled={isLoading || !title.trim()} className="w-full">
         {isLoading ? "Adding..." : "Add Task"}
