@@ -1,3 +1,8 @@
+// Set AUTH_URL at runtime so Railway's RAILWAY_PUBLIC_DOMAIN is used
+if (process.env.RAILWAY_PUBLIC_DOMAIN) {
+  process.env.AUTH_URL = `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`;
+}
+
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
