@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { validateTitle, validatePriority, validateStatus } from "@/lib/validation";
 
 export async function GET() {
   try {
     const session = await auth();
-    
+
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -25,7 +26,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const session = await auth();
-    
+
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -33,13 +34,24 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { title, description, priority, dueDate, status } = body;
 
-    if (!title) {
-      return NextResponse.json({ error: "Title is required" }, { status: 400 });
+    const titleErr = validateTitle(title);
+    if (titleErr) {
+      return NextResponse.json({ error: titleErr }, { status: 400 });
+    }
+
+    const priorityErr = validatePriority(priority);
+    if (priorityErr) {
+      return NextResponse.json({ error: priorityErr }, { status: 400 });
+    }
+
+    const statusErr = validateStatus(status);
+    if (statusErr) {
+      return NextResponse.json({ error: statusErr }, { status: 400 });
     }
 
     const task = await prisma.task.create({
       data: {
-        title,
+        title: title.trim(),
         description: description || null,
         priority: priority || "medium",
         status: status || "todo",
