@@ -51,8 +51,9 @@ export function RecentTasks({ tasks }: RecentTasksProps) {
       </CardHeader>
       <CardContent>
         {recentTasks.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
-            No tasks yet
+          <div className="text-center py-8 space-y-2">
+            <div className="text-3xl">✨</div>
+            <p className="text-sm text-muted-foreground">No tasks yet — get started!</p>
           </div>
         ) : (
           <div className="space-y-3">

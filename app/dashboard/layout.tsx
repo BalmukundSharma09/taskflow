@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CheckSquare, LayoutDashboard, Kanban } from "lucide-react";
+import { CheckSquare } from "lucide-react";
+import { DashboardNav } from "@/components/dashboard-nav";
 import { DashboardSidebar } from "@/components/dashboard-sidebar";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileNav } from "@/components/mobile-nav";
@@ -24,26 +25,11 @@ export default function DashboardLayout({
         </div>
       </header>
       <div className="flex flex-1">
-        <aside className="w-56 border-r bg-card flex flex-col hidden md:flex">
-          <nav className="flex-1 p-4 space-y-1">
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
-            >
-              <LayoutDashboard className="h-4 w-4" />
-              Dashboard
-            </Link>
-            <Link
-              href="/dashboard/board"
-              className="flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
-            >
-              <Kanban className="h-4 w-4" />
-              Kanban Board
-            </Link>
-          </nav>
+        <aside className="w-56 border-r bg-card flex-col hidden md:flex">
+          <DashboardNav />
           <DashboardSidebar />
         </aside>
-        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 overflow-y-auto">
           {children}
         </main>
       </div>

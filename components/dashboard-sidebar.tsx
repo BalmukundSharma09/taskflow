@@ -11,7 +11,7 @@ export function DashboardSidebar() {
   return (
     <div className="p-4 border-t space-y-4">
       <div className="flex items-center gap-3 px-3">
-        <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+        <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
           <User className="h-4 w-4" />
         </div>
         <div className="flex-1 min-w-0">
@@ -27,7 +27,8 @@ export function DashboardSidebar() {
         <ThemeToggle />
         <Button
           variant="ghost"
-          className="flex-1 justify-start text-destructive"
+          size="sm"
+          className="flex-1 justify-start text-destructive hover:text-destructive hover:bg-destructive/10"
           onClick={() => signOut({ callbackUrl: "/" })}
         >
           <LogOut className="mr-2 h-4 w-4" />

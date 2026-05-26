@@ -25,8 +25,10 @@ export function ProgressChart({ todo, inProgress, completed }: ProgressChartProp
   if (data.length === 0) {
     return (
       <Card>
-        <CardContent className="p-6 text-center text-muted-foreground">
-          No tasks yet
+        <CardContent className="p-6 text-center space-y-2">
+          <h3 className="font-semibold text-left mb-2">Progress</h3>
+          <div className="text-3xl">📊</div>
+          <p className="text-sm text-muted-foreground">Create tasks to see your progress</p>
         </CardContent>
       </Card>
     );

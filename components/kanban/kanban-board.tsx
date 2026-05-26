@@ -26,16 +26,10 @@ interface KanbanBoardProps {
 }
 
 const COLUMNS = [
-  { id: "todo", title: "To Do" },
-  { id: "in-progress", title: "In Progress" },
-  { id: "completed", title: "Completed" },
+  { id: "todo", title: "To Do", color: "border-slate-500/30 bg-slate-500/5" },
+  { id: "in-progress", title: "In Progress", color: "border-blue-500/30 bg-blue-500/5" },
+  { id: "completed", title: "Completed", color: "border-green-500/30 bg-green-500/5" },
 ];
-
-const COLORS: Record<string, string> = {
-  todo: "bg-slate-100 dark:bg-slate-800",
-  "in-progress": "bg-blue-100 dark:bg-blue-900",
-  completed: "bg-green-100 dark:bg-green-900",
-};
 
 const PRIORITY_COLORS: Record<string, string> = {
   low: "bg-green-500",
@@ -82,7 +76,7 @@ export function KanbanBoard({ tasks, onStatusChange }: KanbanBoardProps) {
             key={col.id}
             id={col.id}
             title={col.title}
-            color={COLORS[col.id]}
+            color={col.color}
             tasks={tasks.filter((t) => t.status === col.id)}
           />
         ))}
@@ -90,9 +84,9 @@ export function KanbanBoard({ tasks, onStatusChange }: KanbanBoardProps) {
 
       <DragOverlay>
         {activeTask && (
-          <div className="bg-card rounded-lg p-3 shadow-xl border opacity-90">
+          <div className="bg-card rounded-lg p-3 shadow-xl border border-primary/50 opacity-95 rotate-[3deg] scale-105">
             <div className="flex items-center gap-2">
-              <span className={`w-2 h-2 rounded-full ${PRIORITY_COLORS[activeTask.priority]}`} />
+              <span className={`w-2 h-2 rounded-full ${PRIORITY_COLORS[activeTask.priority]} animate-pulse`} />
               <span className="text-sm font-medium">{activeTask.title}</span>
             </div>
           </div>
@@ -118,13 +112,16 @@ function Column({
   return (
     <div
       ref={setNodeRef}
-      className={`rounded-lg p-4 ${color} transition-all ${
-        isOver ? "ring-2 ring-primary scale-[1.01]" : ""
+      className={`rounded-xl border-2 p-4 transition-all duration-200 ${color} ${
+        isOver ? "ring-2 ring-primary scale-[1.02] shadow-lg" : ""
       }`}
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold">{title}</h3>
-        <span className="text-xs bg-background px-2 py-0.5 rounded-full font-medium">
+        <h3 className="font-semibold flex items-center gap-2">
+          <span className={`w-2.5 h-2.5 rounded-full ${id === "todo" ? "bg-slate-500" : id === "in-progress" ? "bg-blue-500" : "bg-green-500"}`} />
+          {title}
+        </h3>
+        <span className="text-xs bg-background/80 px-2 py-0.5 rounded-full font-medium border">
           {tasks.length}
         </span>
       </div>
@@ -134,7 +131,9 @@ function Column({
           <DraggableCard key={task.id} task={task} />
         ))}
         {tasks.length === 0 && (
-          <div className="text-center text-muted-foreground py-6 text-xs border-2 border-dashed rounded-lg">
+          <div className={`text-center text-muted-foreground py-8 text-xs border-2 border-dashed rounded-lg transition-colors ${
+            isOver ? "border-primary/50 bg-primary/5" : "border-muted-foreground/20"
+          }`}>
             Drop tasks here
           </div>
         )}
@@ -158,8 +157,8 @@ function DraggableCard({ task }: { task: Task }) {
       style={style}
       {...listeners}
       {...attributes}
-      className={`bg-card rounded-lg p-3 shadow border cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow ${
-        isDragging ? "opacity-40" : ""
+      className={`bg-card rounded-lg p-3 shadow-sm border hover:shadow-md hover:border-primary/20 transition-all duration-200 cursor-grab active:cursor-grabbing ${
+        isDragging ? "opacity-30 ring-2 ring-primary/30" : ""
       }`}
     >
       <div className="flex items-center gap-2">

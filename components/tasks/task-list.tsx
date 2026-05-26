@@ -53,9 +53,14 @@ export function TaskList({ tasks }: TaskListProps) {
       </div>
       <div className="space-y-2 overflow-hidden">
         {filteredTasks.length === 0 ? (
-          <p className="text-center text-sm text-muted-foreground py-8">
-            No tasks found
-          </p>
+          <div className="text-center py-10 space-y-2">
+            <div className="text-3xl">📋</div>
+            <p className="text-sm text-muted-foreground">
+              {filter === "all"
+                ? "No tasks yet — create one above"
+                : `No tasks with status "${filter}"`}
+            </p>
+          </div>
         ) : (
           filteredTasks.map((task) => (
             <TaskItem key={task.id} task={task} />

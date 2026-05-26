@@ -18,7 +18,7 @@ export function StatsCards({ total, completed, inProgress, todo }: StatsCardsPro
       icon: ListTodo,
       color: "text-blue-500",
       bg: "bg-blue-500/10",
-      suffix: "",
+      hover: "hover:border-blue-500/30 hover:shadow-blue-500/5",
     },
     {
       label: "To Do",
@@ -26,7 +26,7 @@ export function StatsCards({ total, completed, inProgress, todo }: StatsCardsPro
       icon: Circle,
       color: "text-slate-500",
       bg: "bg-slate-500/10",
-      suffix: "",
+      hover: "hover:border-slate-500/30 hover:shadow-slate-500/5",
     },
     {
       label: "In Progress",
@@ -34,7 +34,7 @@ export function StatsCards({ total, completed, inProgress, todo }: StatsCardsPro
       icon: Clock,
       color: "text-yellow-500",
       bg: "bg-yellow-500/10",
-      suffix: "",
+      hover: "hover:border-yellow-500/30 hover:shadow-yellow-500/5",
     },
     {
       label: "Completed",
@@ -42,14 +42,14 @@ export function StatsCards({ total, completed, inProgress, todo }: StatsCardsPro
       icon: CheckCircle,
       color: "text-green-500",
       bg: "bg-green-500/10",
-      suffix: "",
+      hover: "hover:border-green-500/30 hover:shadow-green-500/5",
     },
   ];
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {stats.map((stat) => (
-        <Card key={stat.label}>
+        <Card key={stat.label} className={`transition-all duration-200 hover:scale-[1.02] ${stat.hover}`}>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <div className={`p-2 rounded-lg ${stat.bg}`}>
@@ -57,9 +57,7 @@ export function StatsCards({ total, completed, inProgress, todo }: StatsCardsPro
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">{stat.label}</p>
-                <p className="text-2xl font-bold">
-                  {stat.value}{stat.suffix}
-                </p>
+                <p className="text-2xl font-bold">{stat.value}</p>
               </div>
             </div>
           </CardContent>

@@ -3,11 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Menu, X, CheckSquare } from "lucide-react";
 
 const navLinks = [
   { label: "Features", href: "#features" },
-  { label: "Solutions", href: "#solutions" },
   { label: "Pricing", href: "#pricing" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
@@ -43,7 +43,7 @@ export function Navbar() {
             >
               Sign In
             </Link>
-            <Button asChild className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg h-9 px-4 text-sm">
+            <Button asChild className="bg-blue-600 hover:bg-blue-500 text-white rounded-lg h-9 px-4 text-sm shadow-lg shadow-blue-600/20">
               <Link href="/auth/register">Get Started</Link>
             </Button>
           </div>
@@ -58,36 +58,42 @@ export function Navbar() {
         </div>
       </div>
 
-      {open && (
-        <div className="md:hidden border-t border-white/[0.06] bg-black/95 backdrop-blur-xl">
-          <div className="px-4 py-4 space-y-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="block text-sm text-gray-400 hover:text-white py-2 px-2 rounded-lg hover:bg-white/[0.03] transition-colors"
-                onClick={() => setOpen(false)}
-              >
-                {link.label}
+      <div
+        className={cn(
+          "md:hidden overflow-hidden transition-all duration-300 ease-out",
+          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        )}
+      >
+        <div className="border-t border-white/[0.06] bg-black/95 backdrop-blur-xl px-4 py-4 space-y-2">
+          {navLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className={cn(
+                "block text-sm text-gray-400 hover:text-white py-2 px-2 rounded-lg hover:bg-white/[0.03] transition-colors",
+                open && "animate-slide-up"
+              )}
+              onClick={() => setOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
+          <div className="pt-2 space-y-2">
+            <Link
+              href="/auth/login"
+              className="block text-sm text-gray-400 hover:text-white py-2 px-2 rounded-lg hover:bg-white/[0.03] transition-colors"
+              onClick={() => setOpen(false)}
+            >
+              Sign In
+            </Link>
+            <Button asChild className="w-full bg-blue-600 hover:bg-blue-500 rounded-lg">
+              <Link href="/auth/register" onClick={() => setOpen(false)}>
+                Get Started
               </Link>
-            ))}
-            <div className="pt-2 space-y-2">
-              <Link
-                href="/auth/login"
-                className="block text-sm text-gray-400 hover:text-white py-2 px-2 rounded-lg hover:bg-white/[0.03] transition-colors"
-                onClick={() => setOpen(false)}
-              >
-                Sign In
-              </Link>
-              <Button asChild className="w-full bg-blue-600 hover:bg-blue-500 rounded-lg">
-                <Link href="/auth/register" onClick={() => setOpen(false)}>
-                  Get Started
-                </Link>
-              </Button>
-            </div>
+            </Button>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

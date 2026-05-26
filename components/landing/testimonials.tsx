@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { Star } from "lucide-react";
 
 const testimonials = [
@@ -29,13 +30,13 @@ const testimonials = [
   },
 ];
 
-const avatarColors = ["bg-blue-500", "bg-violet-500", "bg-emerald-500"];
+const avatarColors = ["bg-gradient-to-br from-blue-500 to-blue-600", "bg-gradient-to-br from-violet-500 to-violet-600", "bg-gradient-to-br from-emerald-500 to-emerald-600"];
 
 export function Testimonials() {
   return (
     <section id="about" className="py-20 md:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 space-y-4">
+        <div className="text-center mb-16 space-y-4 animate-fade-in">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-400 text-sm">
             Testimonials
           </div>
@@ -51,7 +52,11 @@ export function Testimonials() {
           {testimonials.map((testimonial, i) => (
             <div
               key={testimonial.name}
-              className="rounded-xl border border-white/10 bg-white/[0.02] p-6 hover:border-white/20 transition-all duration-300 hover:scale-[1.02]"
+              className={cn(
+                "rounded-xl border border-white/10 bg-white/[0.02] p-6 transition-all duration-300 animate-slide-up",
+                "hover:border-white/20 hover:bg-white/[0.04] hover:shadow-xl hover:shadow-white/[0.02] hover:scale-[1.02]",
+                `stagger-${i + 1}`
+              )}
             >
               <div className="flex items-center gap-1 mb-4">
                 {Array.from({ length: testimonial.rating }).map((_, j) => (

@@ -4,10 +4,12 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
 
 interface AuthFormProps {
   mode: "login" | "register";
@@ -77,14 +79,17 @@ export function AuthForm({ mode }: AuthFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className={cn(
+      "w-full max-w-md relative animate-slide-up border-white/[0.06]",
+      mode === "login" ? "bg-white/[0.02]" : "bg-white/[0.02]"
+    )}>
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">
-          {mode === "login" ? "Sign in" : "Create an account"}
+        <CardTitle className="text-2xl font-bold text-white">
+          {mode === "login" ? "Welcome back" : "Create an account"}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-gray-400">
           {mode === "login"
-            ? "Enter your email and password to access your account"
+            ? "Enter your credentials to access your account"
             : "Enter your details to get started with TaskFlow"}
         </CardDescription>
       </CardHeader>
@@ -92,7 +97,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         <form onSubmit={onSubmit} className="space-y-4">
           {mode === "register" && (
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="name" className="text-gray-300">Full Name</Label>
               <Input
                 id="name"
                 name="name"
@@ -100,11 +105,12 @@ export function AuthForm({ mode }: AuthFormProps) {
                 placeholder="John Doe"
                 required
                 disabled={isLoading}
+                className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-blue-500/50"
               />
             </div>
           )}
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-gray-300">Email</Label>
             <Input
               id="email"
               name="email"
@@ -112,10 +118,11 @@ export function AuthForm({ mode }: AuthFormProps) {
               placeholder="your@email.com"
               required
               disabled={isLoading}
+              className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-blue-500/50"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-gray-300">Password</Label>
             <Input
               id="password"
               name="password"
@@ -123,28 +130,36 @@ export function AuthForm({ mode }: AuthFormProps) {
               placeholder="••••••••"
               required
               disabled={isLoading}
+              className="bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-blue-500/50"
             />
           </div>
           {error && (
-            <p className="text-sm text-destructive">{error}</p>
+            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-sm text-red-400 animate-scale-in">
+              {error}
+            </div>
           )}
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading
-              ? mode === "login"
-                ? "Signing in..."
-                : "Creating account..."
-              : mode === "login"
-              ? "Sign In"
-              : "Create Account"}
+          <Button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-500 text-white"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {mode === "login" ? "Signing in..." : "Creating account..."}
+              </>
+            ) : (
+              mode === "login" ? "Sign In" : "Create Account"
+            )}
           </Button>
         </form>
         <div className="mt-4 text-center text-sm">
-          <span className="text-muted-foreground">
+          <span className="text-gray-500">
             {mode === "login" ? "Don't have an account? " : "Already have an account? "}
           </span>
           <Link
             href={mode === "login" ? "/auth/register" : "/auth/login"}
-            className="text-primary hover:underline"
+            className="text-blue-400 hover:text-blue-300 transition-colors"
           >
             {mode === "login" ? "Sign up" : "Sign in"}
           </Link>
