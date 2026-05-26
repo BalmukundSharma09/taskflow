@@ -1,36 +1,53 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { rateLimit } from "@/lib/rate-limit";
-import { validateEmail, validatePassword, validateName, checkOrigin } from "@/lib/validation";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
   try {
-    if (!checkOrigin(request)) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
-    const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-    if (!rateLimit(`register:${clientIp}`, 5, 60_000)) {
-      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    const origin = request.headers.get("origin");
+    const host = request.headers.get("host");
+    if (origin && host) {
+      try {
+        const originUrl = new URL(origin);
+        if (originUrl.host !== host) {
+          return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+        }
+      } catch {
+        return NextResponse.json({ error: "Invalid request origin" }, { status: 403 });
+      }
     }
 
     const body = await request.json();
     const { name, email, password } = body;
 
-    const nameErr = validateName(name);
-    if (nameErr) {
-      return NextResponse.json({ error: nameErr }, { status: 400 });
+    if (!name || !email || !password) {
+      return NextResponse.json(
+        { error: "Name, email, and password are required" },
+        { status: 400 }
+      );
     }
 
-    const emailErr = validateEmail(email);
-    if (emailErr) {
-      return NextResponse.json({ error: emailErr }, { status: 400 });
+    if (typeof name !== "string" || name.trim().length < 1 || name.length > 100) {
+      return NextResponse.json(
+        { error: "Name must be between 1 and 100 characters" },
+        { status: 400 }
+      );
     }
 
-    const passwordErr = validatePassword(password);
-    if (passwordErr) {
-      return NextResponse.json({ error: passwordErr }, { status: 400 });
+    if (typeof email !== "string" || !EMAIL_REGEX.test(email)) {
+      return NextResponse.json(
+        { error: "Invalid email address" },
+        { status: 400 }
+      );
+    }
+
+    if (typeof password !== "string" || password.length < 8) {
+      return NextResponse.json(
+        { error: "Password must be at least 8 characters" },
+        { status: 400 }
+      );
     }
 
     const existingUser = await prisma.user.findUnique({
@@ -39,7 +56,7 @@ export async function POST(request: Request) {
 
     if (existingUser) {
       return NextResponse.json(
-        { error: "Invalid registration data" },
+        { error: "Registration failed" },
         { status: 400 }
       );
     }
@@ -49,7 +66,7 @@ export async function POST(request: Request) {
     const user = await prisma.user.create({
       data: {
         name: name.trim(),
-        email,
+        email: email.toLowerCase().trim(),
         password: hashedPassword,
       },
     });
