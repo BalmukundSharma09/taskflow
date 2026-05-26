@@ -24,38 +24,45 @@ export function ProgressChart({ todo, inProgress, completed }: ProgressChartProp
 
   if (data.length === 0) {
     return (
-      <Card>
-        <CardContent className="p-6 text-center space-y-2">
-          <h3 className="font-semibold text-left mb-2">Progress</h3>
-          <div className="text-3xl">📊</div>
-          <p className="text-sm text-muted-foreground">Create tasks to see your progress</p>
+      <Card className="h-full shadow-sm border-border/50 bg-card">
+        <CardContent className="flex flex-col items-center justify-center h-full min-h-[250px] space-y-3 text-center bg-muted/20 rounded-lg border border-dashed border-border/50 m-4">
+          <div className="text-4xl">📊</div>
+          <p className="text-sm text-muted-foreground font-medium">Create tasks to see your progress</p>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card>
+    <Card className="h-full shadow-sm border-border/50 bg-card">
       <CardContent className="p-6">
-        <h3 className="font-semibold mb-4">Progress</h3>
-        <ResponsiveContainer width="100%" height={200}>
-          <PieChart>
-            <Pie
-              data={data}
-              cx="50%"
-              cy="50%"
-              innerRadius={60}
-              outerRadius={80}
-              paddingAngle={5}
-              dataKey="value"
-            >
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))}
-            </Pie>
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
+        <h3 className="text-lg font-semibold mb-6">Progress</h3>
+        <div className="h-[200px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={data}
+                cx="50%"
+                cy="50%"
+                innerRadius={65}
+                outerRadius={85}
+                paddingAngle={8}
+                dataKey="value"
+                stroke="none"
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Legend 
+                verticalAlign="bottom" 
+                height={36}
+                iconType="circle"
+                formatter={(value) => <span className="text-sm font-medium text-foreground ml-1">{value}</span>}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );

@@ -23,10 +23,10 @@ export function DashboardNav() {
             key={link.href}
             href={link.href}
             className={cn(
-              "flex items-center gap-2 px-3 py-2 rounded-md text-sm transition-colors",
+              "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
               active
-                ? "bg-primary text-primary-foreground font-medium"
-                : "hover:bg-accent hover:text-accent-foreground"
+                ? "bg-primary/10 text-primary"
+                : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
             )}
           >
             <Icon className="h-4 w-4" />

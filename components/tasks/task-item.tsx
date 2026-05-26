@@ -59,29 +59,30 @@ export function TaskItem({ task }: TaskItemProps) {
   }
 
   return (
-    <div className="flex items-start sm:items-center gap-2 sm:gap-3 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors max-w-full">
+    <div className="group flex items-start sm:items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl border border-border/50 bg-card hover:bg-accent/40 hover:border-border transition-all duration-200 shadow-sm hover:shadow max-w-full">
       <Checkbox
         checked={task.status === "completed"}
         onCheckedChange={(checked) =>
           handleStatusChange(checked ? "completed" : "todo")
         }
         disabled={isUpdating}
-        className="mt-0.5 sm:mt-0 shrink-0"
+        aria-label={`Mark task "${task.title}" as ${task.status === 'completed' ? 'todo' : 'completed'}`}
+        className="mt-1 sm:mt-0 shrink-0 h-5 w-5 rounded-md border-muted-foreground/30 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500 transition-all"
       />
       <div className="flex-1 min-w-0 overflow-hidden">
-        <p className={`text-sm font-medium truncate ${task.status === "completed" ? "line-through text-muted-foreground" : ""}`}>
+        <p className={`text-sm sm:text-base font-medium truncate transition-all duration-200 ${task.status === "completed" ? "line-through text-muted-foreground/60" : "text-foreground"}`}>
           {task.title}
         </p>
         {task.description && (
-          <p className="text-xs text-muted-foreground truncate">{task.description}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground truncate mt-0.5">{task.description}</p>
         )}
-        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-1">
-          <span className={`text-xs px-1.5 py-0.5 rounded-full shrink-0 ${
+        <div className="flex flex-wrap items-center gap-2 mt-2 sm:mt-2.5">
+          <span className={`text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 tracking-wide uppercase ${
             task.priority === "high"
-              ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
+              ? "bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400 border border-red-500/20"
               : task.priority === "medium"
-              ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
-              : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+              ? "bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400 border border-amber-500/20"
+              : "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 border border-emerald-500/20"
           }`}>
             {task.priority}
           </span>
@@ -91,20 +92,29 @@ export function TaskItem({ task }: TaskItemProps) {
               onValueChange={handleStatusChange}
               disabled={isUpdating}
             >
-              <SelectTrigger className="h-6 text-xs w-full">
+              <SelectTrigger 
+                aria-label="Change task status"
+                className="h-9 text-xs bg-background/50 border-border/50 hover:bg-accent focus:ring-1 focus:ring-ring w-full rounded-md shadow-none transition-colors"
+              >
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="todo">Todo</SelectItem>
-                <SelectItem value="in-progress">In Progress</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
+                <SelectItem value="todo" className="text-xs">Todo</SelectItem>
+                <SelectItem value="in-progress" className="text-xs">In Progress</SelectItem>
+                <SelectItem value="completed" className="text-xs">Completed</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
       </div>
-      <Button variant="ghost" size="icon" onClick={handleDelete} className="shrink-0 mt-0.5 sm:mt-0">
-        <Trash2 className="h-4 w-4" />
+      <Button 
+        variant="ghost" 
+        size="icon" 
+        onClick={handleDelete} 
+        aria-label={`Delete task "${task.title}"`}
+        className="shrink-0 mt-0.5 sm:mt-0 text-muted-foreground/50 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-all duration-200 h-10 w-10"
+      >
+        <Trash2 className="h-4 w-4 sm:h-5 sm:w-5" />
       </Button>
     </div>
   );

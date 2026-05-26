@@ -27,7 +27,7 @@ export default async function DashboardPage() {
   return (
     <div className="p-4 md:p-6 lg:p-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground mt-1">Welcome back, {user.name}</p>
       </div>
 
@@ -54,22 +54,22 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-3">
-        <Card className="lg:col-span-1 min-w-0">
-          <CardHeader className="p-4 sm:p-6">
-            <CardTitle>Create New Task</CardTitle>
+        <Card className="lg:col-span-1 min-w-0 shadow-sm border-border/50 bg-card h-fit">
+          <CardHeader className="p-5 sm:p-6 pb-4">
+            <CardTitle className="text-lg">Create New Task</CardTitle>
             <CardDescription>Add a new task to your list</CardDescription>
           </CardHeader>
-          <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
+          <CardContent className="p-5 sm:p-6 pt-0 sm:pt-0">
             <TasksClient />
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-2 min-w-0">
-          <CardHeader className="p-4 sm:p-6">
-            <CardTitle>Your Tasks</CardTitle>
+        <Card className="lg:col-span-2 min-w-0 shadow-sm border-border/50 bg-card">
+          <CardHeader className="p-5 sm:p-6 pb-4">
+            <CardTitle className="text-lg">Your Tasks</CardTitle>
             <CardDescription>Manage and track your tasks</CardDescription>
           </CardHeader>
-          <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
+          <CardContent className="p-5 sm:p-6 pt-0 sm:pt-0">
             <TaskList tasks={tasks} />
           </CardContent>
         </Card>

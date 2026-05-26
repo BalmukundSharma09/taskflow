@@ -42,21 +42,21 @@ export function RecentTasks({ tasks }: RecentTasksProps) {
   const recentTasks = tasks.slice(0, 5);
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Recent Tasks</CardTitle>
-        <Button variant="ghost" size="sm" asChild>
+    <Card className="h-full shadow-sm border-border/50 bg-card">
+      <CardHeader className="flex flex-row items-center justify-between pb-4">
+        <CardTitle className="text-lg font-semibold">Recent Tasks</CardTitle>
+        <Button variant="outline" size="sm" asChild className="h-8 text-xs font-medium">
           <Link href="/dashboard/board">View All</Link>
         </Button>
       </CardHeader>
       <CardContent>
         {recentTasks.length === 0 ? (
-          <div className="text-center py-8 space-y-2">
-            <div className="text-3xl">✨</div>
-            <p className="text-sm text-muted-foreground">No tasks yet — get started!</p>
+          <div className="flex flex-col items-center justify-center py-10 space-y-3 text-center bg-muted/20 rounded-lg border border-dashed border-border/50">
+            <div className="text-4xl">✨</div>
+            <p className="text-sm text-muted-foreground font-medium">No tasks yet — get started!</p>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {recentTasks.map((task) => {
               const taskStatus = task.status as TaskStatus;
               const taskPriority = task.priority as TaskPriority;
@@ -64,13 +64,17 @@ export function RecentTasks({ tasks }: RecentTasksProps) {
               return (
                 <div
                   key={task.id}
-                  className="flex items-center justify-between p-2 rounded-lg hover:bg-accent/50"
+                  className="group flex items-center justify-between p-3 rounded-lg border border-transparent hover:border-border/50 hover:bg-accent/50 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <StatusIcon className={`h-4 w-4 shrink-0 ${statusColors[taskStatus]}`} />
-                    <span className="truncate text-sm">{task.title}</span>
+                    <div className="p-1.5 rounded-md bg-background shadow-sm border border-border/20 group-hover:border-border/40 transition-colors">
+                      <StatusIcon className={`h-4 w-4 shrink-0 ${statusColors[taskStatus]}`} />
+                    </div>
+                    <span className="truncate text-sm font-medium">{task.title}</span>
                   </div>
-                  <span className={`w-2 h-2 rounded-full ${priorityColors[taskPriority]} shrink-0`} />
+                  <div className="flex items-center gap-3">
+                    <span className={`w-2 h-2 rounded-full ${priorityColors[taskPriority]} shrink-0 shadow-sm`} />
+                  </div>
                 </div>
               );
             })}
